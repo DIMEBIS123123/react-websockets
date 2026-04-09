@@ -1,0 +1,11 @@
+@import './variables';
+
+.toolbar {
+	height: $toolbarHeight;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	position: absolute;
+	width: 100%;
+	box-shadow: 0px 4px 5px gray;
+}
