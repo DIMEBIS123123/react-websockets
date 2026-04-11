@@ -1,6 +1,6 @@
 @import './variables';
 
-.toolbar {
+.bar {
 	height: $toolbarHeight;
 	background-color: white;
 	display: flex;
@@ -8,4 +8,43 @@
 	position: absolute;
 	width: 100%;
 	box-shadow: 0px 4px 5px gray;
+}
+.toolbar {
+	&__btn {
+		height: 25px;
+		width: 25px;
+		border: none;
+		cursor: pointer;
+		outline: none;
+		margin-left: 10px;
+	}
+	.brush {
+		background: center/cover no-repeat url('../assets//img/brush.svg');
+	}
+	.rect {
+		background: center/cover no-repeat url('../assets//img/rect.svg');
+	}
+	.circle {
+		background: center/cover no-repeat url('../assets//img/circle.svg');
+	}
+	.eraser {
+		background: center/cover no-repeat url('../assets//img/eraser.svg');
+	}
+	.line {
+		background: center/cover no-repeat url('../assets//img/line.svg');
+	}
+	.undo {
+		margin-left: auto;
+		background: center/cover no-repeat url('../assets//img/undo.svg');
+	}
+	.redo {
+		background: center/cover no-repeat url('../assets//img/redo.svg');
+	}
+	.save {
+		background: center/cover no-repeat url('../assets//img/save.svg');
+		margin-right: 10px;
+	}
+}
+.settingbar {
+	top: $toolbarHeight + 10px;
 }

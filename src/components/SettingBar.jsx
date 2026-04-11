@@ -1,7 +1,8 @@
 import React from 'react'
+import '../styles/toolbar.scss'
 
 const SettingBar = () => {
-	return <div className='bar'></div>
+	return <div className='bar settingbar'></div>
 }
 
 export default SettingBar
