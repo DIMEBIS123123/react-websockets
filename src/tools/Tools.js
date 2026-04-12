@@ -3,6 +3,7 @@ export default class Tool {
 		this.canvas = canvas
 		this.ctx = canvas.getContext('2d')
 		this.destroyEvents()
+		this.ctx.restore()
 	}
 	destroyEvents() {
 		this.canvas.onmousemove = null
