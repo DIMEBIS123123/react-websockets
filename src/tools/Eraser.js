@@ -13,6 +13,8 @@ export default class Eraser extends Tool {
 	}
 	mouseUpHandler(e) {
 		this.mouseDown = false
+		this.ctx.strokeStyle = 'black'
+		this.ctx.lineWidth = 1
 	}
 	mouseDownHandler(e) {
 		this.mouseDown = true
