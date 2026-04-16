@@ -22,7 +22,7 @@ class CanvasState {
 		let ctx = this.canvas.getContext('2d')
 		if (this.undoList.length > 0) {
 			let dataUrl = this.undoList.pop()
-			this.redoList.push(dataUrl)
+			this.redoList.push(this.canvas.toDataURL())
 			let img = new Image()
 			img.src = dataUrl
 			img.onload = () => {
