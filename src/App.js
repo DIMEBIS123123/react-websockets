@@ -1,17 +1,19 @@
 import React from 'react'
 import './styles/app.scss'
-import Toolbar from './components/ToolBar'
-import SettingBar from './components/SettingBar'
-import Canvas from './components/Canvas'
 
-const App = () => {
+import { BrowserRouter } from 'react-router-dom'
+import AppRouter from './components/AppRouter'
+
+import { observer } from 'mobx-react-lite'
+
+const App = observer(() => {
 	return (
 		<div className='app'>
-			<Toolbar />
-			<SettingBar></SettingBar>
-			<Canvas></Canvas>
+			<BrowserRouter>
+				<AppRouter></AppRouter>
+			</BrowserRouter>
 		</div>
 	)
-}
+})
 
 export default App
