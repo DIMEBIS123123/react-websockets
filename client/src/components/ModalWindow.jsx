@@ -10,11 +10,18 @@ const ModalWindow = observer(() => {
 	const [show, setShow] = useState(true)
 	const username = useRef()
 
-	const handleClose = () => setShow(false)
+	const handleClose = () => {
+		canvasState.setUsername('Аноним')
+		setShow(false)
+	}
 	const handleShow = () => setShow(true)
 
 	const connectHandler = () => {
-		canvasState.setUsername(username.current.value)
+		if (username.current.value) {
+			canvasState.setUsername(username.current.value)
+		} else {
+			canvasState.setUsername('Аноним')
+		}
 
 		setShow(false)
 	}
@@ -28,9 +35,6 @@ const ModalWindow = observer(() => {
 				<input type='text' placeholder='Дмитрий?' ref={username} />
 			</Modal.Body>
 			<Modal.Footer>
-				<Button variant='secondary' onClick={handleClose}>
-					Закрыть
-				</Button>
 				<Button variant='primary' onClick={connectHandler}>
 					Войти
 				</Button>

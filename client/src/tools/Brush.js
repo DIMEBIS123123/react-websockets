@@ -1,4 +1,3 @@
-import canvasState from '../store/canvasState'
 import Tool from './Tools'
 
 export default class Brush extends Tool {
@@ -13,6 +12,15 @@ export default class Brush extends Tool {
 	}
 	mouseUpHandler(e) {
 		this.mouseDown = false
+		this.socket.send(
+			JSON.stringify({
+				id: this.id,
+				method: 'draw',
+				figure: {
+					type: 'finish',
+				},
+			}),
+		)
 	}
 	mouseDownHandler(e) {
 		this.mouseDown = true
@@ -22,6 +30,7 @@ export default class Brush extends Tool {
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {
 			// this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop)
+
 			this.socket.send(
 				JSON.stringify({
 					id: this.id,

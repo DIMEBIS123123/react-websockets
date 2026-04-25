@@ -4,6 +4,7 @@ export default class Tool {
 		this.socket = socket
 		this.id = id
 		this.ctx = canvas.getContext('2d')
+
 		this.destroyEvents()
 	}
 	set fillColor(color) {

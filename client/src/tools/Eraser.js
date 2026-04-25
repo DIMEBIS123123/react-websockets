@@ -13,8 +13,6 @@ export default class Eraser extends Tool {
 	}
 	mouseUpHandler(e) {
 		this.mouseDown = false
-		this.ctx.strokeStyle = 'black'
-		this.ctx.lineWidth = 1
 	}
 	mouseDownHandler(e) {
 		this.mouseDown = true
@@ -27,9 +25,10 @@ export default class Eraser extends Tool {
 		}
 	}
 	draw(x, y) {
-		this.ctx.lineWidth = 20
-		this.ctx.lineTo(x, y)
+		this.ctx.lineWidth = this.ctx.lineWidth > 1 ? this.ctx.lineWidth : 30
 		this.ctx.strokeStyle = 'white'
+		this.ctx.lineTo(x, y)
+
 		this.ctx.stroke()
 	}
 }

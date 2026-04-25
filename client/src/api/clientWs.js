@@ -1,14 +1,31 @@
 import toolState from '../store/toolState'
 import Brush from '../tools/Brush'
+import Rect from '../tools/Rect'
 
 const { default: canvasState } = require('../store/canvasState')
 
 const drawHandler = msg => {
 	const figure = msg.figure
-	const ctx = canvasState.canvas.ctx
+	const ctx = canvasState.canvas.getContext('2d')
+
 	switch (figure.type) {
-		case 'bush':
+		case 'brush':
 			Brush.draw(ctx, figure.x, figure.y)
+			break
+		case 'rect':
+			Rect.staticDraw(
+				ctx,
+				figure.x,
+				figure.y,
+				figure.width,
+				figure.height,
+				figure.color,
+			)
+			break
+		case 'finish':
+			ctx.beginPath()
+			break
+		default:
 			break
 	}
 }
@@ -19,6 +36,7 @@ const userConnect = id => {
 		const sessionId = id
 		canvasState.setSocket(socket)
 		canvasState.setSessionId(id)
+
 		toolState.setTool(new Brush(canvasState.canvas, socket, id))
 
 		socket.onopen = () => {
@@ -39,6 +57,8 @@ const userConnect = id => {
 
 				case 'draw':
 					drawHandler(msg)
+					break
+				default:
 					break
 			}
 		}

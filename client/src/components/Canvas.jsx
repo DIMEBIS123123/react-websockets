@@ -6,12 +6,15 @@ import toolState from '../store/toolState'
 import Brush from '../tools/Brush'
 import { useParams } from 'react-router-dom'
 import userConnect from '../api/clientWs.js'
+import axios from 'axios'
+import { axiosGet, axiosPost } from '../api/axiosImg.js'
 const Canvas = observer(() => {
 	const canvasRef = useRef()
 	const params = useParams()
 
 	useEffect(() => {
 		canvasState.setCanvas(canvasRef.current)
+		axiosGet(canvasRef, params.id)
 	}, [])
 
 	useEffect(() => {
@@ -25,6 +28,7 @@ const Canvas = observer(() => {
 		<div className='canvas-wrapper'>
 			<canvas
 				onMouseDown={() => mouseDownHandler()}
+				onMouseUp={() => axiosPost(canvasRef, params.id)}
 				ref={canvasRef}
 				width={800}
 				height={600}

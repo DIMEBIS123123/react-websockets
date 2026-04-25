@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../styles/toolbar.scss'
 import '../styles/app.scss'
-import SettingBar from './SettingBar'
+import { observer } from 'mobx-react-lite'
 import toolState from '../store/toolState'
 import Brush from '../tools/Brush'
 import canvasState from '../store/canvasState'
@@ -10,20 +10,47 @@ import Circle from '../tools/Circle'
 import Eraser from '../tools/Eraser'
 import Line from '../tools/Line'
 
-const Toolbar = () => {
-	const changeColor = e => {
-		toolState.setStrokeColor(e.target.value)
-		toolState.setFillColor(e.target.value)
+const Toolbar = observer(() => {
+	const downloadSave = () => {
+		const dataUrl = canvasState.canvas.toDataURL()
+		const a = document.createElement('a')
+		a.href = dataUrl
+		a.download = canvasState.sessionId + 'jpg'
+		document.body.appendChild(a)
+		a.click()
+		document.body.removeChild(a)
 	}
+	useEffect(() => {
+		if (!toolState.tool) return
+		toolState.setFillColor(toolState.settingFillColor)
+		toolState.setStrokeColor(toolState.settingStrokeColor)
+		toolState.setLineWidth(toolState.settingLineWidth)
+	}, [toolState.tool])
 	return (
 		<div className='bar toolbar'>
 			<button
 				className='toolbar__btn brush'
-				onClick={() => toolState.setTool(new Brush(canvasState.canvas))}
+				onClick={() => {
+					toolState.setTool(
+						new Brush(
+							canvasState.canvas,
+							canvasState.socket,
+							canvasState.sessionId,
+						),
+					)
+				}}
 			></button>
 			<button
 				className='toolbar__btn rect'
-				onClick={() => toolState.setTool(new Rect(canvasState.canvas))}
+				onClick={() =>
+					toolState.setTool(
+						new Rect(
+							canvasState.canvas,
+							canvasState.socket,
+							canvasState.sessionId,
+						),
+					)
+				}
 			></button>
 			<button
 				className='toolbar__btn circle'
@@ -37,13 +64,7 @@ const Toolbar = () => {
 				className='toolbar__btn line'
 				onClick={() => toolState.setTool(new Line(canvasState.canvas))}
 			></button>
-			<input
-				onChange={e => {
-					changeColor(e)
-				}}
-				className='toolbar__btn color'
-				type='color'
-			/>
+
 			<button
 				className='toolbar__btn undo'
 				onClick={() => canvasState.undo()}
@@ -52,9 +73,12 @@ const Toolbar = () => {
 				className='toolbar__btn redo'
 				onClick={() => canvasState.redo()}
 			></button>
-			<button className='toolbar__btn save'></button>
+			<button
+				onClick={() => downloadSave()}
+				className='toolbar__btn save'
+			></button>
 		</div>
 	)
-}
+})
 
 export default Toolbar
