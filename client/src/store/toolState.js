@@ -23,6 +23,11 @@ class ToolState {
 	setLineWidth(width) {
 		this.tool.lineWidth = width
 	}
+	setCurrentSettings() {
+		this.tool.lineWidth = this.settingLineWidth
+		this.tool.strokeColor = this.settingStrokeColor
+		this.tool.fillColor = this.settingFillColor
+	}
 	//Сохранение выбранных настроек в состояние
 	setSettingFillColor(color) {
 		this.settingFillColor = color

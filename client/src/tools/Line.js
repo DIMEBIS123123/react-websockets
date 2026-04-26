@@ -1,18 +1,53 @@
 import Tool from './Tools'
 
 export default class Line extends Tool {
-	constructor(canvas) {
-		super(canvas)
+	constructor(canvas, socket, id) {
+		super(canvas, socket, id)
 		this.listen()
 	}
 	listen() {
 		this.canvas.onmousemove = this.mouseMoveHandler.bind(this)
 		this.canvas.onmousedown = this.mouseDownHandler.bind(this)
 		this.canvas.onmouseup = this.mouseUpHandler.bind(this)
+		this.canvas.onmouseleave = this.mouseLeaveHandler.bind(this)
 	}
 	mouseUpHandler(e) {
 		this.mouseDown = false
-		this.draw(this.lastX, this.lastY)
+		this.socket.send(
+			JSON.stringify({
+				id: this.id,
+				method: 'draw',
+				figure: {
+					type: 'line',
+					x: this.lastX,
+					y: this.lastY,
+					startX: this.startX,
+					startY: this.startY,
+					fillColor: this.ctx.fillStyle,
+					strokeColor: this.ctx.strokeStyle,
+					lineWidth: this.ctx.lineWidth,
+				},
+			}),
+		)
+	}
+	mouseLeaveHandler(e) {
+		this.mouseDown = false
+		this.socket.send(
+			JSON.stringify({
+				id: this.id,
+				method: 'draw',
+				figure: {
+					type: 'line',
+					x: this.lastX,
+					y: this.lastY,
+					startX: this.startX,
+					startY: this.startY,
+					fillColor: this.ctx.fillStyle,
+					strokeColor: this.ctx.strokeStyle,
+					lineWidth: this.ctx.lineWidth,
+				},
+			}),
+		)
 	}
 	mouseDownHandler(e) {
 		this.mouseDown = true
@@ -41,5 +76,13 @@ export default class Line extends Tool {
 
 			this.ctx.stroke()
 		}
+	}
+	static staticDraw(ctx, x, y, startX, startY) {
+		ctx.beginPath()
+		ctx.moveTo(startX, startY)
+		ctx.lineTo(x, y)
+
+		ctx.stroke()
+		ctx.beginPath()
 	}
 }

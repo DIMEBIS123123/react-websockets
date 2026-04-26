@@ -32,6 +32,13 @@ class CanvasState {
 	pushToRedo(data) {
 		this.redoList.push(data)
 	}
+
+	clean() {
+		let ctx = this.canvas.getContext('2d')
+		this.pushToUndo(this.canvas.toDataURL())
+
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+	}
 	undo() {
 		let ctx = this.canvas.getContext('2d')
 		if (this.undoList.length > 0) {

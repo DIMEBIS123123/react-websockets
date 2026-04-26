@@ -23,6 +23,7 @@ const Canvas = observer(() => {
 
 	const mouseDownHandler = () => {
 		canvasState.pushToUndo(canvasRef.current.toDataURL())
+		toolState.setCurrentSettings()
 	}
 	return (
 		<div className='canvas-wrapper'>

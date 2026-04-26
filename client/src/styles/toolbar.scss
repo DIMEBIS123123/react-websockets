@@ -19,29 +19,32 @@
 		margin-left: 10px;
 	}
 	.brush {
-		background: center/cover no-repeat url('../assets//img/brush.svg');
+		background: center/cover no-repeat url('../assets/img/brush.svg');
 	}
 	.rect {
-		background: center/cover no-repeat url('../assets//img/rect.svg');
+		background: center/cover no-repeat url('../assets/img/rect.svg');
 	}
 	.circle {
-		background: center/cover no-repeat url('../assets//img/circle.svg');
+		background: center/cover no-repeat url('../assets/img/circle.svg');
 	}
 	.eraser {
-		background: center/cover no-repeat url('../assets//img/eraser.svg');
+		background: center/cover no-repeat url('../assets/img/eraser.svg');
 	}
 	.line {
-		background: center/cover no-repeat url('../assets//img/line.svg');
+		background: center/cover no-repeat url('../assets/img/line.svg');
+	}
+	.clean {
+		margin-left: auto;
+		background: center/cover no-repeat url('../assets/img/clean.png');
 	}
 	.undo {
-		margin-left: auto;
-		background: center/cover no-repeat url('../assets//img/undo.svg');
+		background: center/cover no-repeat url('../assets/img/undo.svg');
 	}
 	.redo {
-		background: center/cover no-repeat url('../assets//img/redo.svg');
+		background: center/cover no-repeat url('../assets/img/redo.svg');
 	}
 	.save {
-		background: center/cover no-repeat url('../assets//img/save.svg');
+		background: center/cover no-repeat url('../assets/img/save.svg');
 		margin-right: 10px;
 	}
 }

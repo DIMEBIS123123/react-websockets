@@ -1,17 +1,51 @@
 import Tool from './Tools'
 
 export default class Circle extends Tool {
-	constructor(canvas) {
-		super(canvas)
+	constructor(canvas, socket, id) {
+		super(canvas, socket, id)
 		this.listen()
 	}
 	listen() {
 		this.canvas.onmousemove = this.mouseMoveHandler.bind(this)
 		this.canvas.onmousedown = this.mouseDownHandler.bind(this)
 		this.canvas.onmouseup = this.mouseUpHandler.bind(this)
+		this.canvas.onmouseleave = this.mouseLeaveHandler.bind(this)
 	}
 	mouseUpHandler(e) {
 		this.mouseDown = false
+		this.socket.send(
+			JSON.stringify({
+				id: this.id,
+				method: 'draw',
+				figure: {
+					type: 'circle',
+					x: this.startX,
+					y: this.startY,
+					radius: this.radius,
+					fillColor: this.ctx.fillStyle,
+					strokeColor: this.ctx.strokeStyle,
+					lineWidth: this.ctx.lineWidth,
+				},
+			}),
+		)
+	}
+	mouseLeaveHandler(e) {
+		this.mouseDown = false
+		this.socket.send(
+			JSON.stringify({
+				id: this.id,
+				method: 'draw',
+				figure: {
+					type: 'circle',
+					x: this.startX,
+					y: this.startY,
+					radius: this.radius,
+					fillColor: this.ctx.fillStyle,
+					strokeColor: this.ctx.strokeStyle,
+					lineWidth: this.ctx.lineWidth,
+				},
+			}),
+		)
 	}
 	mouseDownHandler(e) {
 		this.mouseDown = true
@@ -26,8 +60,8 @@ export default class Circle extends Tool {
 			let currentY = e.pageY - e.target.offsetTop
 			let width = currentX - this.startX
 			let height = currentY - this.startY
-			let radius = Math.sqrt(width ** 2 + height ** 2)
-			this.draw(this.startX, this.startY, radius)
+			this.radius = Math.sqrt(width ** 2 + height ** 2)
+			this.draw(this.startX, this.startY, this.radius)
 		}
 	}
 	draw(x, y, r) {
@@ -41,5 +75,12 @@ export default class Circle extends Tool {
 
 			this.ctx.stroke()
 		}
+	}
+	static staticDraw(ctx, x, y, r) {
+		ctx.beginPath()
+		ctx.arc(x, y, r, 0, Math.PI * 2)
+
+		ctx.stroke()
+		ctx.beginPath()
 	}
 }

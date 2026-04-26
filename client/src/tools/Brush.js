@@ -9,8 +9,21 @@ export default class Brush extends Tool {
 		this.canvas.onmousemove = this.mouseMoveHandler.bind(this)
 		this.canvas.onmousedown = this.mouseDownHandler.bind(this)
 		this.canvas.onmouseup = this.mouseUpHandler.bind(this)
+		this.canvas.onmouseleave = this.mouseLeaveHandler.bind(this)
 	}
 	mouseUpHandler(e) {
+		this.mouseDown = false
+		this.socket.send(
+			JSON.stringify({
+				id: this.id,
+				method: 'draw',
+				figure: {
+					type: 'finish',
+				},
+			}),
+		)
+	}
+	mouseLeaveHandler(e) {
 		this.mouseDown = false
 		this.socket.send(
 			JSON.stringify({
@@ -39,6 +52,9 @@ export default class Brush extends Tool {
 						type: 'brush',
 						x: e.pageX - e.target.offsetLeft,
 						y: e.pageY - e.target.offsetTop,
+						fillColor: this.ctx.fillStyle,
+						strokeColor: this.ctx.strokeStyle,
+						lineWidth: this.ctx.lineWidth,
 					},
 				}),
 			)

@@ -9,6 +9,7 @@ export default class Rect extends Tool {
 		this.canvas.onmousemove = this.mouseMoveHandler.bind(this)
 		this.canvas.onmousedown = this.mouseDownHandler.bind(this)
 		this.canvas.onmouseup = this.mouseUpHandler.bind(this)
+		this.canvas.onmouseleave = this.mouseLeaveHandler.bind(this)
 	}
 	mouseUpHandler(e) {
 		this.mouseDown = false
@@ -22,7 +23,28 @@ export default class Rect extends Tool {
 					y: this.startY,
 					width: this.width,
 					height: this.height,
-					color: this.ctx.fillStyle,
+					fillColor: this.ctx.fillStyle,
+					strokeColor: this.ctx.strokeStyle,
+					lineWidth: this.ctx.lineWidth,
+				},
+			}),
+		)
+	}
+	mouseLeaveHandler(e) {
+		this.mouseDown = false
+		this.socket.send(
+			JSON.stringify({
+				id: this.id,
+				method: 'draw',
+				figure: {
+					type: 'rect',
+					x: this.startX,
+					y: this.startY,
+					width: this.width,
+					height: this.height,
+					fillColor: this.ctx.fillStyle,
+					strokeColor: this.ctx.strokeStyle,
+					lineWidth: this.ctx.lineWidth,
 				},
 			}),
 		)
@@ -55,11 +77,11 @@ export default class Rect extends Tool {
 			this.ctx.stroke()
 		}
 	}
-	static staticDraw(ctx, x, y, w, h, color) {
-		ctx.fillStyle = color
+	static staticDraw(ctx, x, y, w, h) {
 		ctx.beginPath()
 		ctx.rect(x, y, w, h)
 		ctx.fill()
 		ctx.stroke()
+		ctx.beginPath()
 	}
 }
