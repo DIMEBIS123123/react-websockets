@@ -6,13 +6,16 @@ import Line from '../tools/Line'
 import Rect from '../tools/Rect'
 
 const { default: canvasState } = require('../store/canvasState')
-
+const addToUndo = figure => {
+	canvasState.pushToUndo(figure)
+}
 const drawHandler = msg => {
 	const figure = msg.figure
 	const ctx = canvasState.canvas.getContext('2d')
 
 	switch (figure.type) {
 		case 'brush':
+			addToUndo(figure)
 			Brush.applySettingBar(
 				ctx,
 				figure.fillColor,
@@ -23,6 +26,7 @@ const drawHandler = msg => {
 
 			break
 		case 'rect':
+			addToUndo(figure)
 			Rect.applySettingBar(
 				ctx,
 				figure.fillColor,
@@ -32,6 +36,7 @@ const drawHandler = msg => {
 			Rect.staticDraw(ctx, figure.x, figure.y, figure.width, figure.height)
 			break
 		case 'circle':
+			addToUndo(figure)
 			Circle.applySettingBar(
 				ctx,
 				figure.fillColor,
@@ -41,9 +46,11 @@ const drawHandler = msg => {
 			Circle.staticDraw(ctx, figure.x, figure.y, figure.radius)
 			break
 		case 'eraser':
+			addToUndo(figure)
 			Eraser.draw(ctx, figure.x, figure.y, figure.lineWidth)
 			break
 		case 'line':
+			addToUndo(figure)
 			Line.applySettingBar(
 				ctx,
 				figure.fillColor,
@@ -59,6 +66,24 @@ const drawHandler = msg => {
 		case 'finish':
 			ctx.beginPath()
 			break
+		case 'undo':
+			ctx.clearRect(0, 0, canvasState.canvas.width, canvasState.canvas.height)
+			let figureCount = 0
+			let figureId = 0
+			canvasState.undoList = figure.undoList
+			figure.undoList.forEach(figure => {
+				figureCount += 1
+				if (figureCount == 1) {
+					figureId = figure.id
+					ctx.beginPath()
+				}
+				if (figureId != figure.id) {
+					ctx.beginPath()
+					figureId = figure.id
+				}
+				canvasState.redraw(figure, ctx)
+			})
+			break
 		default:
 			break
 	}
@@ -71,7 +96,9 @@ const userConnect = id => {
 		canvasState.setSocket(socket)
 		canvasState.setSessionId(id)
 
-		toolState.setTool(new Brush(canvasState.canvas, socket, id))
+		toolState.setTool(
+			new Brush(canvasState.canvas, socket, id, canvasState.username),
+		)
 
 		socket.onopen = () => {
 			socket.send(

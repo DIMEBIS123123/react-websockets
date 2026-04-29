@@ -1,8 +1,8 @@
 import Tool from './Tools'
 
 export default class Rect extends Tool {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id)
+	constructor(canvas, socket, id, username) {
+		super(canvas, socket, id, username)
 		this.listen()
 	}
 	listen() {
@@ -13,12 +13,15 @@ export default class Rect extends Tool {
 	}
 	mouseUpHandler(e) {
 		this.mouseDown = false
+
 		this.socket.send(
 			JSON.stringify({
 				id: this.id,
 				method: 'draw',
 				figure: {
 					type: 'rect',
+					username: this.username,
+					id: this.figureId,
 					x: this.startX,
 					y: this.startY,
 					width: this.width,
@@ -31,23 +34,28 @@ export default class Rect extends Tool {
 		)
 	}
 	mouseLeaveHandler(e) {
-		this.mouseDown = false
-		this.socket.send(
-			JSON.stringify({
-				id: this.id,
-				method: 'draw',
-				figure: {
-					type: 'rect',
-					x: this.startX,
-					y: this.startY,
-					width: this.width,
-					height: this.height,
-					fillColor: this.ctx.fillStyle,
-					strokeColor: this.ctx.strokeStyle,
-					lineWidth: this.ctx.lineWidth,
-				},
-			}),
-		)
+		if (this.mouseDown) {
+			this.mouseDown = false
+
+			this.socket.send(
+				JSON.stringify({
+					id: this.id,
+					method: 'draw',
+					figure: {
+						type: 'rect',
+						username: this.username,
+						id: this.figureId,
+						x: this.startX,
+						y: this.startY,
+						width: this.width,
+						height: this.height,
+						fillColor: this.ctx.fillStyle,
+						strokeColor: this.ctx.strokeStyle,
+						lineWidth: this.ctx.lineWidth,
+					},
+				}),
+			)
+		}
 	}
 	mouseDownHandler(e) {
 		this.mouseDown = true
@@ -55,6 +63,7 @@ export default class Rect extends Tool {
 		this.startX = e.pageX - e.target.offsetLeft
 		this.startY = e.pageY - e.target.offsetTop
 		this.saved = this.canvas.toDataURL()
+		this.figureId = Date.now()
 	}
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {

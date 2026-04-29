@@ -36,6 +36,7 @@ const Toolbar = observer(() => {
 							canvasState.canvas,
 							canvasState.socket,
 							canvasState.sessionId,
+							canvasState.username,
 						),
 					)
 				}}
@@ -48,6 +49,7 @@ const Toolbar = observer(() => {
 							canvasState.canvas,
 							canvasState.socket,
 							canvasState.sessionId,
+							canvasState.username,
 						),
 					)
 				}
@@ -60,6 +62,7 @@ const Toolbar = observer(() => {
 							canvasState.canvas,
 							canvasState.socket,
 							canvasState.sessionId,
+							canvasState.username,
 						),
 					)
 				}
@@ -72,6 +75,7 @@ const Toolbar = observer(() => {
 							canvasState.canvas,
 							canvasState.socket,
 							canvasState.sessionId,
+							canvasState.username,
 						),
 					)
 				}
@@ -84,6 +88,7 @@ const Toolbar = observer(() => {
 							canvasState.canvas,
 							canvasState.socket,
 							canvasState.sessionId,
+							canvasState.username,
 						),
 					)
 				}

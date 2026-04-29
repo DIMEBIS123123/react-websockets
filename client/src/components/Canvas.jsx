@@ -22,7 +22,6 @@ const Canvas = observer(() => {
 	}, [canvasState.username])
 
 	const mouseDownHandler = () => {
-		canvasState.pushToUndo(canvasRef.current.toDataURL())
 		toolState.setCurrentSettings()
 	}
 	return (

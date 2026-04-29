@@ -11,7 +11,7 @@ const ModalWindow = observer(() => {
 	const username = useRef()
 
 	const handleClose = () => {
-		canvasState.setUsername('Аноним')
+		canvasState.setUsername('Аноним' + (+new Date()).toString(16))
 		setShow(false)
 	}
 	const handleShow = () => setShow(true)
@@ -20,7 +20,7 @@ const ModalWindow = observer(() => {
 		if (username.current.value) {
 			canvasState.setUsername(username.current.value)
 		} else {
-			canvasState.setUsername('Аноним')
+			canvasState.setUsername('Аноним' + (+new Date()).toString(16))
 		}
 
 		setShow(false)

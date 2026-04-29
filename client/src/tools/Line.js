@@ -1,8 +1,8 @@
 import Tool from './Tools'
 
 export default class Line extends Tool {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id)
+	constructor(canvas, socket, id, username) {
+		super(canvas, socket, id, username)
 		this.listen()
 	}
 	listen() {
@@ -19,6 +19,8 @@ export default class Line extends Tool {
 				method: 'draw',
 				figure: {
 					type: 'line',
+					username: this.username,
+					id: this.figureId,
 					x: this.lastX,
 					y: this.lastY,
 					startX: this.startX,
@@ -39,6 +41,8 @@ export default class Line extends Tool {
 				figure: {
 					type: 'line',
 					x: this.lastX,
+					username: this.username,
+					id: this.figureId,
 					y: this.lastY,
 					startX: this.startX,
 					startY: this.startY,
@@ -56,6 +60,7 @@ export default class Line extends Tool {
 		this.startY = e.pageY - e.target.offsetTop
 
 		this.saved = this.canvas.toDataURL()
+		this.figureId = Date.now()
 	}
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {

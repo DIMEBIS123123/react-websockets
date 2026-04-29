@@ -1,8 +1,8 @@
 import Tool from './Tools'
 
 export default class Brush extends Tool {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id)
+	constructor(canvas, socket, id, username) {
+		super(canvas, socket, id, username)
 		this.listen()
 	}
 	listen() {
@@ -39,6 +39,7 @@ export default class Brush extends Tool {
 		this.mouseDown = true
 		this.ctx.beginPath()
 		this.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop)
+		this.figureId = Date.now()
 	}
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {
@@ -50,6 +51,8 @@ export default class Brush extends Tool {
 					method: 'draw',
 					figure: {
 						type: 'brush',
+						username: this.username,
+						id: this.figureId,
 						x: e.pageX - e.target.offsetLeft,
 						y: e.pageY - e.target.offsetTop,
 						fillColor: this.ctx.fillStyle,

@@ -1,8 +1,8 @@
 import Tool from './Tools'
 
 export default class Eraser extends Tool {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id)
+	constructor(canvas, socket, id, username) {
+		super(canvas, socket, id, username)
 		this.listen()
 		this.ctx.save()
 	}
@@ -40,6 +40,7 @@ export default class Eraser extends Tool {
 		this.mouseDown = true
 		this.ctx.beginPath()
 		this.ctx.moveTo(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop)
+		this.figureId = Date.now()
 	}
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {
@@ -50,6 +51,8 @@ export default class Eraser extends Tool {
 					method: 'draw',
 					figure: {
 						type: 'eraser',
+						username: this.username,
+						id: this.figureId,
 						x: e.pageX - e.target.offsetLeft,
 						y: e.pageY - e.target.offsetTop,
 						lineWidth: this.ctx.lineWidth,

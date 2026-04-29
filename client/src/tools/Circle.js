@@ -1,8 +1,8 @@
 import Tool from './Tools'
 
 export default class Circle extends Tool {
-	constructor(canvas, socket, id) {
-		super(canvas, socket, id)
+	constructor(canvas, socket, id, username) {
+		super(canvas, socket, id, username)
 		this.listen()
 	}
 	listen() {
@@ -19,8 +19,10 @@ export default class Circle extends Tool {
 				method: 'draw',
 				figure: {
 					type: 'circle',
+					username: this.username,
 					x: this.startX,
 					y: this.startY,
+					id: this.figureId,
 					radius: this.radius,
 					fillColor: this.ctx.fillStyle,
 					strokeColor: this.ctx.strokeStyle,
@@ -37,8 +39,10 @@ export default class Circle extends Tool {
 				method: 'draw',
 				figure: {
 					type: 'circle',
+					username: this.username,
 					x: this.startX,
 					y: this.startY,
+					id: this.figureId,
 					radius: this.radius,
 					fillColor: this.ctx.fillStyle,
 					strokeColor: this.ctx.strokeStyle,
@@ -53,6 +57,7 @@ export default class Circle extends Tool {
 		this.startX = e.pageX - e.target.offsetLeft
 		this.startY = e.pageY - e.target.offsetTop
 		this.saved = this.canvas.toDataURL()
+		this.figureId = Date.now()
 	}
 	mouseMoveHandler(e) {
 		if (this.mouseDown) {
