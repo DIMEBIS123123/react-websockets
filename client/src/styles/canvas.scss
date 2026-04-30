@@ -1,12 +1,68 @@
-@import './variables';
-
 .canvas-wrapper {
 	height: 100vh;
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
+
+	width: 100%;
+	padding-top: 0px;
+	padding-right: 30px;
 }
 canvas {
+	position: relative;
 	border: 1px solid black;
-	background-color: white;
+	background: radial-gradient(
+		circle at 50% 40%,
+		#20263a 0%,
+		#0f1724 22%,
+		#070b12 48%,
+		#020304 72%,
+		#000000 100%
+	);
+	opacity: 0.95;
+	border-radius: 50%;
+	overflow: hidden;
+	animation: pulse 2.8s ease-in-out infinite;
+	box-shadow:
+		0 0 20px rgba(32, 38, 58, 0.25),
+		0 0 50px rgba(32, 38, 58, 0.12),
+		inset 0 0 30px rgba(255, 255, 255, 0.02);
+}
+canvas::after {
+	content: '';
+	position: absolute;
+	inset: -12px;
+	border-radius: 50%;
+	pointer-events: none;
+
+	background: radial-gradient(
+		circle,
+		rgba(32, 38, 58, 0.22) 0%,
+		rgba(15, 23, 36, 0.12) 45%,
+		transparent 72%
+	);
+
+	filter: blur(18px);
+	animation: halo 2.8s ease-in-out infinite;
+}
+@keyframes pulse {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.035);
+	}
+}
+
+@keyframes halo {
+	0%,
+	100% {
+		opacity: 0.35;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.65;
+		transform: scale(1.08);
+	}
 }

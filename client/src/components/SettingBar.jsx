@@ -1,5 +1,4 @@
 import React from 'react'
-import '../styles/toolbar.scss'
 import toolState from '../store/toolState'
 
 const SettingBar = () => {
@@ -27,6 +26,7 @@ const SettingBar = () => {
 				style={{ margin: '0 10px' }}
 				id='stroke-color'
 				type='color'
+				defaultValue='white'
 			/>
 			<label htmlFor='fill-color'>Цвет заливки</label>
 			<input
@@ -38,6 +38,7 @@ const SettingBar = () => {
 				style={{ margin: '0 10px' }}
 				type='color'
 				id='fill-color'
+				defaultValue='white'
 			/>
 		</div>
 	)

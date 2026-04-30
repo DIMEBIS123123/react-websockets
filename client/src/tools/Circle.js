@@ -65,6 +65,7 @@ export default class Circle extends Tool {
 			let currentY = e.pageY - e.target.offsetTop
 			let width = currentX - this.startX
 			let height = currentY - this.startY
+
 			this.radius = Math.sqrt(width ** 2 + height ** 2)
 			this.draw(this.startX, this.startY, this.radius)
 		}
@@ -77,7 +78,7 @@ export default class Circle extends Tool {
 			this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height)
 			this.ctx.beginPath()
 			this.ctx.arc(x, y, r, 0, Math.PI * 2)
-
+			this.ctx.fill()
 			this.ctx.stroke()
 		}
 	}

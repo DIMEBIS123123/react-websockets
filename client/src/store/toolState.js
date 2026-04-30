@@ -3,8 +3,8 @@ import { makeAutoObservable } from 'mobx'
 class ToolState {
 	tool = null
 	settingLineWidth = 1
-	settingStrokeColor = 'black'
-	settingFillColor = 'black'
+	settingStrokeColor = 'white'
+	settingFillColor = 'white'
 	constructor() {
 		makeAutoObservable(this)
 	}

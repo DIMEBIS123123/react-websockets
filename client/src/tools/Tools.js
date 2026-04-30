@@ -5,6 +5,7 @@ export default class Tool {
 		this.id = id
 		this.ctx = canvas.getContext('2d')
 		this.username = username
+		this.ctx.globalCompositeOperation = 'source-over'
 
 		this.destroyEvents()
 	}

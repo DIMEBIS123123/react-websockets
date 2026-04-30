@@ -30,8 +30,8 @@ const Canvas = observer(() => {
 				onMouseDown={() => mouseDownHandler()}
 				onMouseUp={() => axiosPost(canvasRef, params.id)}
 				ref={canvasRef}
-				width={800}
-				height={600}
+				width={1000}
+				height={1000}
 			></canvas>
 		</div>
 	)

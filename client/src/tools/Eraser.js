@@ -63,7 +63,8 @@ export default class Eraser extends Tool {
 	}
 	static draw(ctx, x, y, lineWidth) {
 		ctx.lineWidth = lineWidth > 1 ? lineWidth : 30
-		ctx.strokeStyle = 'white'
+		ctx.globalCompositeOperation = 'destination-out'
+
 		ctx.lineTo(x, y)
 
 		ctx.stroke()

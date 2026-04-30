@@ -1,0 +1,335 @@
+/* ===== ОВЕРЛЕЙ — туман бездны ===== */
+.modal.show {
+	background: radial-gradient(
+		circle at 50% 50%,
+		rgba(10, 16, 20, 0.85) 0%,
+		rgba(5, 8, 8, 0.95) 100%
+	);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+
+/* ===== ДИАЛОГ — центрирование ===== */
+.modal-dialog {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	margin: 0 auto;
+	max-width: 420px;
+}
+
+/* ===== КОНТЕНТ — деревянная табличка ===== */
+.modal-content {
+	position: relative;
+	border: none;
+	border-radius: 12px;
+	overflow: hidden;
+
+	/* Деревянная текстура */
+	background:
+		repeating-linear-gradient(
+			93deg,
+			transparent 0px,
+			transparent 2px,
+			rgba(255, 255, 255, 0.012) 2px,
+			rgba(255, 255, 255, 0.012) 3px
+		),
+		repeating-linear-gradient(
+			180deg,
+			transparent 0px,
+			transparent 7px,
+			rgba(0, 0, 0, 0.025) 7px,
+			rgba(0, 0, 0, 0.025) 8px
+		),
+		linear-gradient(
+			175deg,
+			#7a5a30 0%,
+			#6a4e28 25%,
+			#5c3d1e 50%,
+			#4a3018 75%,
+			#3a2512 100%
+		);
+
+	/* Деревянная рамка */
+	box-shadow:
+    /* Внешнее свечение фонаря */
+		0 0 60px rgba(245, 217, 160, 0.08),
+		0 0 30px rgba(200, 168, 78, 0.06),
+		/* Тень */ 0 12px 40px rgba(0, 0, 0, 0.7),
+		0 4px 12px rgba(0, 0, 0, 0.5),
+		/* Рамка */ inset 0 1px 0 rgba(255, 220, 150, 0.12),
+		inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+		inset 1px 0 0 rgba(255, 220, 150, 0.06),
+		inset -1px 0 0 rgba(0, 0, 0, 0.2);
+
+	/* Появление */
+	animation: tabletAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes tabletAppear {
+	from {
+		opacity: 0;
+		transform: scale(0.85) translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+/* Декоративные гвоздики по углам */
+.modal-content::before,
+.modal-content::after {
+	content: '⚙';
+	position: absolute;
+	font-size: 10px;
+	color: rgba(160, 130, 80, 0.4);
+	z-index: 5;
+}
+
+.modal-content::before {
+	top: 8px;
+	left: 10px;
+}
+
+.modal-content::after {
+	top: 8px;
+	right: 10px;
+}
+
+/* ===== ЗАГОЛОВОК — верхняя планка ===== */
+.modal-header {
+	padding: 18px 22px 14px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+
+	background: linear-gradient(
+		180deg,
+		rgba(255, 220, 150, 0.06) 0%,
+		transparent 100%
+	);
+}
+
+.modal-title {
+	font-family: 'Vollkorn', serif;
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	color: #f0dfc0;
+
+	text-shadow:
+		0 1px 3px rgba(0, 0, 0, 0.5),
+		0 0 12px rgba(245, 217, 160, 0.08);
+}
+
+/* Кнопка закрытия — деревянный крестик */
+.modal-header .btn-close {
+	width: 30px;
+	height: 30px;
+	border-radius: 6px;
+	border: 1px solid rgba(160, 120, 64, 0.3);
+	opacity: 0.7;
+	padding: 0;
+
+	background: linear-gradient(175deg, #6a4e28 0%, #5c3d1e 50%, #4a3018 100%);
+
+	/* Заменяем стандартный крестик */
+	background-image: none;
+	position: relative;
+
+	box-shadow:
+		0 2px 5px rgba(0, 0, 0, 0.4),
+		inset 0 1px 0 rgba(255, 220, 150, 0.1);
+
+	transition: all 0.2s ease;
+	cursor: pointer;
+}
+
+.modal-header .btn-close::before,
+.modal-header .btn-close::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 14px;
+	height: 2px;
+	background: #f0dfc0;
+	border-radius: 1px;
+}
+
+.modal-header .btn-close::before {
+	transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modal-header .btn-close::after {
+	transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.modal-header .btn-close:hover {
+	opacity: 1;
+	transform: scale(1.1);
+	border-color: rgba(200, 168, 78, 0.5);
+	box-shadow:
+		0 2px 5px rgba(0, 0, 0, 0.4),
+		0 0 10px rgba(245, 217, 160, 0.1);
+}
+
+.modal-header .btn-close:active {
+	transform: scale(0.95);
+}
+
+/* ===== ТЕЛО — пергамент ===== */
+.modal-body {
+	padding: 24px 22px;
+}
+
+.modal-body input[type='text'] {
+	width: 100%;
+	padding: 12px 16px;
+	font-family: 'Vollkorn', serif;
+	font-size: 16px;
+	color: #3a2512;
+	letter-spacing: 0.3px;
+
+	/* Пергаментный фон */
+	background: linear-gradient(
+		180deg,
+		#f0dfc0 0%,
+		#e8d4b0 30%,
+		#e0caa0 70%,
+		#d8c098 100%
+	);
+
+	border: 2px solid rgba(90, 60, 25, 0.4);
+	border-radius: 6px;
+
+	box-shadow:
+		inset 0 2px 6px rgba(0, 0, 0, 0.1),
+		inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+		0 1px 0 rgba(255, 220, 150, 0.08);
+
+	outline: none;
+	transition: all 0.3s ease;
+}
+
+.modal-body input[type='text']::placeholder {
+	color: #8a7050;
+	font-style: italic;
+	opacity: 0.7;
+}
+
+.modal-body input[type='text']:focus {
+	border-color: #c8a84e;
+
+	background: linear-gradient(180deg, #f5e6c8 0%, #eedcb8 50%, #e6d2a8 100%);
+
+	box-shadow:
+		inset 0 2px 6px rgba(0, 0, 0, 0.08),
+		0 0 12px rgba(200, 168, 78, 0.15),
+		0 0 4px rgba(245, 217, 160, 0.1);
+}
+
+/* ===== ФУТЕР — нижняя планка ===== */
+.modal-footer {
+	padding: 14px 22px 18px;
+	border-top: 1px solid rgba(0, 0, 0, 0.25);
+	display: flex;
+	justify-content: center;
+
+	background: linear-gradient(
+		0deg,
+		rgba(255, 220, 150, 0.04) 0%,
+		transparent 100%
+	);
+}
+
+/* Кнопка «Войти» — реликвия */
+.modal-footer .btn-primary {
+	font-family: 'Vollkorn', serif;
+	font-size: 15px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	color: #3a2512;
+
+	padding: 10px 36px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+
+	/* Золотой градиент реликвии */
+	background: linear-gradient(
+		175deg,
+		#e8d88e 0%,
+		#c8a84e 30%,
+		#b09040 60%,
+		#98782e 100%
+	);
+
+	border-top: 2px solid rgba(255, 235, 170, 0.6);
+	border-left: 1px solid rgba(240, 220, 150, 0.4);
+	border-right: 1px solid rgba(100, 70, 30, 0.4);
+	border-bottom: 2px solid rgba(80, 55, 20, 0.6);
+
+	box-shadow:
+		0 3px 10px rgba(0, 0, 0, 0.4),
+		0 0 15px rgba(200, 168, 78, 0.08),
+		inset 0 1px 0 rgba(255, 240, 190, 0.3);
+
+	transition: all 0.25s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+/* Блик на кнопке */
+.modal-footer .btn-primary::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 60%;
+	height: 100%;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(255, 255, 255, 0.15),
+		transparent
+	);
+	transition: left 0.5s ease;
+}
+
+.modal-footer .btn-primary:hover::before {
+	left: 120%;
+}
+
+.modal-footer .btn-primary:hover {
+	transform: translateY(-2px);
+	color: #2a1a0a;
+
+	background: linear-gradient(
+		175deg,
+		#f0e0a0 0%,
+		#d4b460 30%,
+		#c0a048 60%,
+		#a88838 100%
+	);
+
+	box-shadow:
+		0 5px 15px rgba(0, 0, 0, 0.45),
+		0 0 25px rgba(200, 168, 78, 0.15),
+		inset 0 1px 0 rgba(255, 240, 190, 0.4);
+}
+
+.modal-footer .btn-primary:active {
+	transform: translateY(1px);
+
+	background: linear-gradient(175deg, #a88838 0%, #987830 50%, #886828 100%);
+
+	border-top: 1px solid rgba(100, 70, 30, 0.5);
+	border-bottom: 1px solid rgba(200, 170, 100, 0.3);
+
+	box-shadow:
+		0 1px 3px rgba(0, 0, 0, 0.5),
+		inset 0 2px 5px rgba(0, 0, 0, 0.2);
+
+	transition: all 0.05s ease;
+}

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import '../styles/toolbar.scss'
 import '../styles/app.scss'
 import { observer } from 'mobx-react-lite'
 import toolState from '../store/toolState'

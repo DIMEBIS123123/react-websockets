@@ -1,13 +1,535 @@
-@import './variables';
-
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
+
+/* ===== ШРИФТ ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+/* ===== ПЕРЕМЕННЫЕ ===== */
+:root {
+	/* Слои бездны */
+	--abyss-surface: #4a8c6f; /* Зелёный — поверхность, Орт */
+	--abyss-layer1: #2d7a7a; /* Бирюзовый — Лес Соблазна */
+	--abyss-layer2: #1b5e6b; /* Тёмно-бирюзовый — Перевёрнутый Лес */
+	--abyss-layer3: #1a3a5c; /* Глубокий синий — Великие Заводи */
+	--abyss-layer4: #2a1f4e; /* Фиолетовый — Море Трупов */
+	--abyss-layer5: #3d1a3a; /* Багровый — 6-й слой */
+	--abyss-layer6: #1a0a0a; /* Почти чёрный — Финальное Погружение */
+	--abyss-bottom: #000000; /* Дно Бездны */
+
+	/* Акценты */
+	--relic-gold: #c8a84e; /* Золото реликвий */
+	--relic-glow: #e8d88e; /* Свечение реликвий */
+	--whistle-white: #d4e0e0; /* Белый свисток */
+	--whistle-blue: #5fb8c7; /* Лунный свисток */
+	--whistle-black: #2a2a3a; /* Чёрный свисток */
+	--curse-red: #8b2232; /* Проклятие бездны */
+	--curse-glow: #c0354a; /* Свечение проклятия */
+	--reg-cyan: #00e5ff; /* Луч Рега */
+	--nanachi-cream: #f5e6c8; /* Нанати */
+	--mitty-amber: #d4854a; /* Митти */
+
+	/* UI */
+	--bg-panel: rgba(15, 20, 30, 0.85);
+	--bg-panel-hover: rgba(25, 35, 55, 0.95);
+	--border-glow: rgba(95, 184, 199, 0.3);
+	--text-primary: #d4e0e0;
+	--text-dim: #7a9a9a;
+}
+
+/* ===== СБРОС ===== */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Cinzel', serif;
+	min-height: 100vh;
+	overflow: hidden;
+
+	background: radial-gradient(
+		ellipse at 50% 0%,
+		var(--abyss-surface) 0%,
+		var(--abyss-layer1) 8%,
+		var(--abyss-layer2) 18%,
+		var(--abyss-layer3) 30%,
+		var(--abyss-layer4) 48%,
+		var(--abyss-layer5) 68%,
+		var(--abyss-layer6) 88%,
+		var(--abyss-bottom) 100%
+	);
+}
+
+/* ===== Светлячки / Частицы Бездны ===== */
+body::before,
+body::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 0;
+}
+
+body::before {
+	background:
+		radial-gradient(1px 1px at 10% 20%, var(--reg-cyan) 50%, transparent 100%),
+		radial-gradient(
+			1px 1px at 25% 45%,
+			var(--relic-glow) 50%,
+			transparent 100%
+		),
+		radial-gradient(
+			1.5px 1.5px at 40% 15%,
+			var(--whistle-blue) 50%,
+			transparent 100%
+		),
+		radial-gradient(1px 1px at 55% 60%, var(--reg-cyan) 50%, transparent 100%),
+		radial-gradient(
+			1px 1px at 70% 30%,
+			var(--relic-glow) 50%,
+			transparent 100%
+		),
+		radial-gradient(
+			1.5px 1.5px at 85% 50%,
+			var(--whistle-blue) 50%,
+			transparent 100%
+		),
+		radial-gradient(1px 1px at 15% 75%, var(--reg-cyan) 50%, transparent 100%),
+		radial-gradient(
+			1px 1px at 60% 85%,
+			var(--relic-glow) 50%,
+			transparent 100%
+		),
+		radial-gradient(
+			1.5px 1.5px at 90% 70%,
+			var(--whistle-blue) 50%,
+			transparent 100%
+		),
+		radial-gradient(1px 1px at 35% 90%, var(--reg-cyan) 50%, transparent 100%);
+	animation: floatParticles 12s ease-in-out infinite;
+	opacity: 0.6;
+}
+
+@keyframes floatParticles {
+	0%,
+	100% {
+		transform: translateY(0) scale(1);
+		opacity: 0.6;
+	}
+	25% {
+		transform: translateY(-8px) scale(1.1);
+		opacity: 0.8;
+	}
+	50% {
+		transform: translateY(4px) scale(0.95);
+		opacity: 0.5;
+	}
+	75% {
+		transform: translateY(-4px) scale(1.05);
+		opacity: 0.7;
+	}
+}
+
+/* ===== APP ===== */
 .app {
-	height: 100vh;
-	max-height: 100vh;
-	width: 100vw;
-	background-color: $backgroundColor;
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+	padding: 15px;
+
+	gap: 15px;
+}
+.bg-video {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: -1;
+	pointer-events: none;
+}
+
+/* ===== ПАНЕЛИ (toolbar / settingbar) ===== */
+.bar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 12px 20px;
+
+	background: var(--bg-panel);
+	border: 1px solid var(--border-glow);
+	border-radius: 16px;
+
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+
+	box-shadow:
+		0 0 15px rgba(0, 229, 255, 0.06),
+		0 4px 20px rgba(0, 0, 0, 0.4),
+		inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+	transition: all 0.4s ease;
+}
+
+.bar:hover {
+	border-color: rgba(95, 184, 199, 0.5);
+	box-shadow:
+		0 0 25px rgba(0, 229, 255, 0.1),
+		0 6px 30px rgba(0, 0, 0, 0.5),
+		inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ===== КНОПКИ ИНСТРУМЕНТОВ ===== */
+.toolbar__btn {
+	position: relative;
+	width: 44px;
+	height: 44px;
+	border: 1px solid rgba(95, 184, 199, 0.25);
+	border-radius: 10px;
+	cursor: pointer;
+
+	background: linear-gradient(
+		145deg,
+		rgba(42, 31, 78, 0.6),
+		rgba(26, 58, 92, 0.4)
+	);
+
+	color: var(--text-primary);
+	font-family: 'Cinzel', serif;
+	font-size: 11px;
+
+	transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	overflow: hidden;
+}
+
+/* Свечение при наведении — «Луч Рега» */
+.toolbar__btn::before {
+	content: '';
+	position: absolute;
+	inset: -2px;
+	border-radius: 12px;
+	background: linear-gradient(
+		135deg,
+		var(--reg-cyan),
+		var(--whistle-blue),
+		var(--relic-gold)
+	);
+	opacity: 0;
+	z-index: -1;
+	transition: opacity 0.3s ease;
+	filter: blur(6px);
+}
+
+.toolbar__btn:hover::before {
+	opacity: 0.6;
+}
+
+.toolbar__btn:hover {
+	transform: translateY(-3px) scale(1.08);
+	border-color: var(--reg-cyan);
+	background: linear-gradient(
+		145deg,
+		rgba(0, 229, 255, 0.15),
+		rgba(42, 31, 78, 0.8)
+	);
+	box-shadow:
+		0 0 12px rgba(0, 229, 255, 0.3),
+		0 6px 20px rgba(0, 0, 0, 0.4);
+	color: var(--relic-glow);
+}
+
+.toolbar__btn:active {
+	transform: translateY(0) scale(0.95);
+	box-shadow:
+		0 0 8px rgba(139, 34, 50, 0.5),
+		inset 0 0 10px rgba(0, 0, 0, 0.3);
+	border-color: var(--curse-red);
+	transition: all 0.1s ease;
+}
+
+/* Рябь при клике */
+.toolbar__btn::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background: rgba(0, 229, 255, 0.3);
+	transform: translate(-50%, -50%);
+	transition:
+		width 0.5s ease,
+		height 0.5s ease,
+		opacity 0.5s ease;
+	opacity: 0;
+}
+
+.toolbar__btn:active::after {
+	width: 80px;
+	height: 80px;
+	opacity: 0;
+}
+
+/* ===== КОНКРЕТНЫЕ КНОПКИ (эмодзи-иконки) ===== */
+.brush::after {
+	content: '🖌️';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+.rect::after {
+	content: '⬜';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+.circle::after {
+	content: '⭕';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+.eraser::after {
+	content: '🧹';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+.line::after {
+	content: '📏';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+.clean::after {
+	content: '🗑️';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+.undo::after {
+	content: '↩️';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+.redo::after {
+	content: '↪️';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+.save::after {
+	content: '💾';
+	font-size: 18px;
+	position: static;
+	width: auto;
+	height: auto;
+	background: none;
+	opacity: 1;
+}
+
+/* ===== SETTINGBAR ===== */
+.settingbar {
+	gap: 12px;
+}
+
+.settingbar label {
+	color: var(--text-dim);
+	font-size: 12px;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	transition: color 0.3s ease;
+}
+
+.settingbar label:hover {
+	color: var(--whistle-blue);
+}
+
+.settingbar input[type='number'] {
+	width: 60px;
+	padding: 6px 8px;
+	border: 1px solid var(--border-glow);
+	border-radius: 8px;
+	background: rgba(15, 20, 30, 0.8);
+	color: var(--text-primary);
+	font-family: 'Cinzel', serif;
+	font-size: 13px;
+	text-align: center;
+	outline: none;
+	transition: all 0.3s ease;
+}
+
+.settingbar input[type='number']:focus {
+	border-color: var(--reg-cyan);
+	box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.settingbar input[type='color'] {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 36px;
+	height: 36px;
+	border: 2px solid var(--border-glow);
+	border-radius: 50%;
+	cursor: pointer;
+	background: transparent;
+	padding: 0;
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+
+.settingbar input[type='color']::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+.settingbar input[type='color']::-webkit-color-swatch {
+	border: none;
+	border-radius: 50%;
+}
+
+.settingbar input[type='color']:hover {
+	transform: scale(1.15);
+	border-color: var(--relic-gold);
+	box-shadow: 0 0 12px rgba(200, 168, 78, 0.4);
+}
+
+/* ===== CANVAS-WRAPPER — БЕЗДНА ===== */
+
+/* Туман наверху бездны */
+.canvas-wrapper::before {
+	content: '';
+	position: absolute;
+	top: -5%;
+	left: -5%;
+	width: 110%;
+	height: 50%;
+	border-radius: 50% 50% 40% 40%;
+	background: radial-gradient(
+		ellipse at 50% 0%,
+		rgba(74, 140, 111, 0.12) 0%,
+		rgba(45, 122, 122, 0.06) 40%,
+		transparent 70%
+	);
+	pointer-events: none;
+	z-index: 2;
+	animation: fogDrift 8s ease-in-out infinite;
+}
+
+/* Свечение проклятия снизу */
+.canvas-wrapper::after {
+	content: '';
+	position: absolute;
+	bottom: -5%;
+	left: 10%;
+	width: 80%;
+	height: 30%;
+	border-radius: 50%;
+	background: radial-gradient(
+		ellipse at 50% 100%,
+		rgba(192, 53, 74, 0.08) 0%,
+		rgba(139, 34, 50, 0.04) 50%,
+		transparent 80%
+	);
+	pointer-events: none;
+	z-index: 2;
+	animation: curseGlow 6s ease-in-out infinite;
+}
+
+/* ===== АНИМАЦИИ БЕЗДНЫ ===== */
+@keyframes abyssPulse {
+	0%,
+	100% {
+		box-shadow:
+			0 0 40px rgba(0, 229, 255, 0.08),
+			0 0 80px rgba(42, 31, 78, 0.2),
+			0 0 120px rgba(0, 0, 0, 0.5),
+			inset 0 0 60px rgba(0, 0, 0, 0.6),
+			inset 0 -20px 40px rgba(139, 34, 50, 0.08);
+	}
+	50% {
+		box-shadow:
+			0 0 50px rgba(0, 229, 255, 0.14),
+			0 0 100px rgba(42, 31, 78, 0.3),
+			0 0 140px rgba(0, 0, 0, 0.6),
+			inset 0 0 80px rgba(0, 0, 0, 0.7),
+			inset 0 -30px 50px rgba(139, 34, 50, 0.14);
+	}
+}
+
+@keyframes fogDrift {
+	0%,
+	100% {
+		transform: translateX(0) scale(1);
+		opacity: 1;
+	}
+	33% {
+		transform: translateX(8px) scale(1.02);
+		opacity: 0.7;
+	}
+	66% {
+		transform: translateX(-6px) scale(0.98);
+		opacity: 0.9;
+	}
+}
+
+@keyframes curseGlow {
+	0%,
+	100% {
+		opacity: 0.6;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.08);
+	}
+}
+
+/* ===== СКРОЛЛБАР ===== */
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-track {
+	background: var(--abyss-bottom);
+}
+::-webkit-scrollbar-thumb {
+	background: var(--abyss-layer4);
+	border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: var(--whistle-blue);
 }

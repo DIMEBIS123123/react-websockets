@@ -4,6 +4,7 @@ import Brush from '../tools/Brush'
 import Rect from '../tools/Rect'
 import Circle from '../tools/Circle'
 import Eraser from '../tools/Eraser'
+import { axiosCanvasPost } from '../api/axiosImg'
 
 class CanvasState {
 	canvas = null
@@ -40,8 +41,8 @@ class CanvasState {
 
 	clean() {
 		let ctx = this.canvas.getContext('2d')
-
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+		axiosCanvasPost(this.canvas, this.sessionId)
 	}
 	undo() {
 		let ctx = this.canvas.getContext('2d')
