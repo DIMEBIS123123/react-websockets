@@ -51,7 +51,7 @@
 
 </ul>
 
-<h2>⌛ Демо-видео проекта</h2>
+<h2>⌛ Демо-видео проекта (нужно кликнуть на превью 😺)</h2>
 
 <a href="https://youtu.be/QQ0nxM9xGI8" target="_blank">
  <img width="1966" height="1023" alt="demo-video" src="https://github.com/DIMEBIS123123/react-websockets/blob/2d5de4be96279bf5b9d5ca17407906e20fa5d62e/abyss-paint.png" />
