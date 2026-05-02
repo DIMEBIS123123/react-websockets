@@ -53,7 +53,7 @@
 
 <h2>⌛ Демо-видео проекта</h2>
 
-<a href="https://youtu.be/NLooME-uNaI" target="_blank">
+<a href="https://youtu.be/QQ0nxM9xGI8" target="_blank">
  <img width="1966" height="1023" alt="demo-video" src="https://github.com/user-attachments/assets/e9760516-05e7-4951-a673-0c2cf57a6429" />
 
 </a>
